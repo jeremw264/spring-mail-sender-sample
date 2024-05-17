@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
+import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,14 +48,14 @@ public interface EmailController {
 	 * @return a {@link ResponseEntity} containing a status message as a {@link String}
 	 * @throws MessagingException if there is an error while attempting to send the email
 	 */
-	@Operation(summary  = "Send Raw Email Data", description = "Processes and sends raw email data provided in the request body.")
+	@Operation(summary = "Send Raw Email Data")
 	@ApiResponse(responseCode = "200", description = "Email sent successfully.")
 	@ApiResponse(responseCode = "400", description = "Invalid input data.",
 			content = @Content(schema = @Schema(implementation = ResourceExceptionDTO.class)))
 	@ApiResponse(responseCode = "500", description = "Internal server error.",
 			content = @Content(schema = @Schema(implementation = ResourceExceptionDTO.class)))
 	@PostMapping("/raw")
-	ResponseEntity<String> sendRowData(@RequestBody RawEmailForm rawEmailForm) throws MessagingException;
+	ResponseEntity<String> sendRowData(@Valid @RequestBody RawEmailForm rawEmailForm) throws MessagingException;
 
 	/**
 	 * Handles HTTP POST requests to send email data using a template.
@@ -74,5 +75,5 @@ public interface EmailController {
 	@ApiResponse(responseCode = "500", description = "Internal server error.",
 			content = @Content(schema = @Schema(implementation = ResourceExceptionDTO.class)))
 	@PostMapping("/template")
-	ResponseEntity<String> sendTemplateData(@RequestBody TemplateEmailForm templateEmailForm) throws MessagingException;
+	ResponseEntity<String> sendTemplateData(@Valid @RequestBody TemplateEmailForm templateEmailForm) throws MessagingException;
 }

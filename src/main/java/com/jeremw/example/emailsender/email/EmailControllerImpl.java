@@ -13,7 +13,6 @@ import org.thymeleaf.context.Context;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * Implementation of {@link EmailController}.
@@ -33,7 +32,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class EmailControllerImpl implements EmailController{
+public class EmailControllerImpl implements EmailController {
+
+	private final static String TEMPLATE_EMAIL_SUBJECT = "Bienvenue chez Votre Société";
 
 	private final EmailService emailService;
 
@@ -50,8 +51,9 @@ public class EmailControllerImpl implements EmailController{
 	 */
 	@Override
 	public ResponseEntity<String> sendRowData(final RawEmailForm rawEmailForm) throws MessagingException {
-		emailService.sendRowText(rawEmailForm.getTo(),rawEmailForm.getSubject(),rawEmailForm.getContent());
-		return ResponseEntity.ok("Raw email are correctly send.");
+		emailService.sendRowText(rawEmailForm.getTo(), rawEmailForm.getSubject(), rawEmailForm.getContent());
+		log.info("Raw email successfully sent to {}", rawEmailForm.getTo());
+		return ResponseEntity.ok("Raw email sent successfully.");
 	}
 
 	/**
@@ -67,19 +69,23 @@ public class EmailControllerImpl implements EmailController{
 	 */
 	@Override
 	public ResponseEntity<String> sendTemplateData(final TemplateEmailForm templateEmailForm) throws MessagingException {
+		Map<String, Object> variables = prepareTemplateVariables(templateEmailForm);
+		Context context = new Context();
+		context.setVariables(variables);
+
+		emailService.sentHtmlTemplate(templateEmailForm.getTo(), TEMPLATE_EMAIL_SUBJECT, "example-template", context);
+		log.info("Template email successfully sent to {}", templateEmailForm.getTo());
+		return ResponseEntity.ok("Template email sent successfully.");
+	}
+
+	private Map<String, Object> prepareTemplateVariables(TemplateEmailForm templateEmailForm) {
 		Map<String, Object> variables = new HashMap<>();
-		String subject = "Bienvenue chez Votre Société";
-		variables.put("subject", subject);
+		variables.put("subject", TEMPLATE_EMAIL_SUBJECT);
 		variables.put("name", templateEmailForm.getName());
 		variables.put("email", templateEmailForm.getTo());
 		variables.put("signupDate", LocalDate.now().toString());
 		variables.put("companyName", templateEmailForm.getCompanyName());
 		variables.put("currentYear", LocalDate.now().getYear());
-
-		Context context = new Context();
-		context.setVariables(variables);
-
-		emailService.sentHtmlTemplate(templateEmailForm.getTo(),subject,"example-template",null);
-		return ResponseEntity.ok("Template email are correctly send.");
+		return variables;
 	}
 }

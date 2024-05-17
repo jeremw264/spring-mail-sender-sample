@@ -3,17 +3,17 @@ spring:
     name: email-sender
 
   mail:
-    host:
-    port:
-    username:
-    password:
+    host: smtp.gmail.com
+    port: 587
+    username: mail@gmail.com
+    password: password
     protocol: smtp
     properties:
       mail:
         smtp:
-          auth: false
+          auth: true
           starttls:
-            enable: false
+            enable: true
           timeout: 5000
 logging:
   level:
