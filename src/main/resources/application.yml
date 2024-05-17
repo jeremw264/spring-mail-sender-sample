@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: email-sender
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: mail@gmail.com
+    password: password
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          timeout: 5000
+logging:
+  level:
+    root: info
+
+server:
+  port: 3001
+
+custom:
+  mail:
+    from: test@domain.com
