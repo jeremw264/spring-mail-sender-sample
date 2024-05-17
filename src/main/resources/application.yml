@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: email-sender
+
+  mail:
+    host:
+    port:
+    username:
+    password:
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+          timeout: 5000
+logging:
+  level:
+    root: info
+
+server:
+  port: 3001
+
+custom:
+  mail:
+    from: test@domain.com

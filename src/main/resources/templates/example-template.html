@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Exemple d'Email</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .header {
+            text-align: center;
+            padding: 10px 0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.8em;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1 th:text="${subject}">Sujet de l'email</h1>
+    </div>
+
+    <p>Bonjour <span th:text="${name}">Nom du destinataire</span>,</p>
+
+    <p>Merci de vous être inscrit à notre service. Voici les détails de votre inscription :</p>
+
+    <ul>
+        <li><strong>Email :</strong> <span th:text="${email}">example@example.com</span></li>
+        <li><strong>Date d'inscription :</strong> <span th:text="${signupDate}">01/01/2024</span></li>
+    </ul>
+
+    <p>Si vous avez des questions, n'hésitez pas à répondre à cet e-mail.</p>
+
+    <p>Bien cordialement,</p>
+    <p>L'équipe de <span th:text="${companyName}">Votre Société</span></p>
+
+    <div class="footer">
+        <p>&copy; <span th:text="${currentYear}">2024</span> Votre Société. Tous droits réservés.</p>
+    </div>
+</div>
+</body>
+</html>
