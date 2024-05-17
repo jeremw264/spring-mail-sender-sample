@@ -47,7 +47,7 @@ The application will be available at [http://localhost:3001](http://localhost:30
 
 ## Swagger Documentation
 
-The API documentation is available via Swagger at http://localhost:3001/api/v1/swagger-ui/index.html#/
+The API documentation is available via Swagger at http://localhost:3001/swagger-ui/index.html#/
 
 ## Usage
 
